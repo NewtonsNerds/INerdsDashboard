@@ -9,6 +9,16 @@
     "homepage": "http://framework.zend.com/",
     "require": {
         "php": ">=5.5",
-        "zendframework/zendframework": "~2.5"
-    }
+        "zendframework/zendframework": "~2.5",
+        "inerds/base": "dev-master",
+        "inerds/dropdown-generator": "dev-master",
+        "inerds/file-manager": "dev-master",
+        "inerds/form-processor": "dev-master"
+    },
+    "repositories": [ 
+    	{ 
+    		"type": "composer", 
+    		"url": "http://composer.newtonsnerds.com/"
+    	} 
+    ]
 }
