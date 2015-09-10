@@ -1,0 +1,126 @@
+<?php
+if (!$this->enableRegistration) {
+    print "Registration is disabled";
+    return;
+}
+$form = $this->registerForm;
+$form->prepare();
+$form->setAttribute('action', $this->url('zfcuser/register'));
+$form->setAttribute('method', 'post');
+$form->setAttribute('class', 'register-form');
+?>
+
+<?php echo $this->form()->openTag($form) ?>
+		<h3><?php echo $this->translate('New Account'); ?></h3>
+		<div id="account-details-block">
+		<p class="hint">
+			 Enter your account details below:
+		</p>
+		<?php if($form->has('username')):?>
+		<div class="form-group">
+			<label class="control-label visible-ie8 visible-ie9"><?php echo $this->formLabel($form->get('username')) ?></label>
+			<?= $this->formInput($form->get('username')->setAttributes(array('placeholder' => 'Username', 'class' => 'form-control placeholder-no-fix'))) . $this->formElementErrors($form->get('username')); ?>
+		</div>
+		<?php endif;?>
+		<div class="form-group">
+			<label class="control-label visible-ie8 visible-ie9"><?php echo $this->formLabel($form->get('email')) ?></label>
+			<?= $this->formInput($form->get('email')->setAttributes(array('placeholder' => 'Email', 'class' => 'form-control placeholder-no-fix'))) . $this->formElementErrors($form->get('email')); ?>
+		</div>
+		<div class="form-group">
+			<label class="control-label visible-ie8 visible-ie9"><?php echo $this->formLabel($form->get('password')) ?></label>
+			<?= $this->formInput($form->get('password')->setAttributes(array('placeholder' => 'Password', 'class' => 'form-control placeholder-no-fix'))) . $this->formElementErrors($form->get('password')); ?>
+		</div>
+		<div class="form-group">
+			<label class="control-label visible-ie8 visible-ie9"><?php echo $this->formLabel($form->get('passwordVerify')) ?></label>
+			<?= $this->formInput($form->get('passwordVerify')->setAttributes(array('placeholder' => 'Re-type Password', 'class' => 'form-control placeholder-no-fix'))) . $this->formElementErrors($form->get('passwordVerify')); ?>
+		</div>
+		<div class="form-actions">
+		    <a href="<?php echo $this->url('zfcuser/login') . ($this->redirect ? '?redirect='.$this->escapeUrl($this->redirect) : '') ?>">Already registered? Log me in. </a>
+			<button type="button" id="go-btn" class="btn btn-success pull-right">Go!</button>
+		</div>
+		</div>
+		<div id="personal-details-block" style="display: none;">
+		<p class="hint">
+			 Almost there. Enter your personal details below:
+		</p>
+		<div class="row">
+		<div class="col-md-12">
+		<div class="form-group">
+			<label class="control-label visible-ie8 visible-ie9"><?php echo $this->formLabel($form->get('title')) ?></label>
+			<?= $this->formSelect($form->get('title')->setAttributes(array('placeholder' => 'Title', 'class' => 'form-control placeholder-no-fix'))) . $this->formElementErrors($form->get('title')); ?>
+		</div>
+		</div>
+		<div class="col-md-6">
+		<div class="form-group">
+			<label class="control-label visible-ie8 visible-ie9"><?php echo $this->formLabel($form->get('lastName')) ?></label>
+			<?= $this->formInput($form->get('lastName')->setAttributes(array('placeholder' => 'Last Name', 'class' => 'form-control placeholder-no-fix'))) . $this->formElementErrors($form->get('lastName')); ?>
+		</div>
+		</div>
+		<div class="col-md-6">
+		<div class="form-group">
+			<label class="control-label visible-ie8 visible-ie9"><?php echo $this->formLabel($form->get('firstName')) ?></label>
+			<?= $this->formInput($form->get('firstName')->setAttributes(array('placeholder' => 'First Name', 'class' => 'form-control placeholder-no-fix'))) . $this->formElementErrors($form->get('firstName')); ?>
+		</div>
+		</div>
+		</div>
+		<div class="form-group">
+			<label class="control-label visible-ie8 visible-ie9"><?php echo $this->formLabel($form->get('company')) ?></label>
+			<?= $this->formInput($form->get('company')->setAttributes(array('placeholder' => 'Company', 'class' => 'form-control placeholder-no-fix'))) . $this->formElementErrors($form->get('company')); ?>
+		</div>
+		<div class="row">
+		<div class="col-md-6">
+		<div class="form-group">
+			<label class="control-label visible-ie8 visible-ie9"><?php echo $this->formLabel($form->get('mobile')) ?></label>
+			<?= $this->formInput($form->get('mobile')->setAttributes(array('placeholder' => 'Mobile', 'class' => 'form-control placeholder-no-fix'))) . $this->formElementErrors($form->get('mobile')); ?>
+		</div>
+		</div>
+		<div class="col-md-6">
+		<div class="form-group">
+			<label class="control-label visible-ie8 visible-ie9"><?php echo $this->formLabel($form->get('telephone')) ?></label>
+			<?= $this->formInput($form->get('telephone')->setAttributes(array('placeholder' => 'Phone', 'class' => 'form-control placeholder-no-fix'))) . $this->formElementErrors($form->get('telephone')); ?>
+		</div>
+		</div>
+		</div>
+		
+		<div class="form-actions">
+			<button type="button" id="register-back-btn" class="btn btn-default">Back</button>
+			<button type="submit" id="register-submit-btn" class="btn btn-success uppercase pull-right">Finish</button>
+		</div>
+		</div>
+		<?php if ($this->redirect): ?>
+        <input type="hidden" name="redirect" value="<?php echo $this->escapeHtml($this->redirect) ?>" />
+        <?php endif ?>
+<?php echo $this->form()->closeTag() ?>
+
+<?php
+$this->inlineScript()->captureStart();
+echo <<<JS
+jQuery(document).ready(function() {
+	$('#go-btn').click(function(){
+            
+            var isAccountDetailsValid = true;
+            
+            // Loop through all the input elements in first screen
+            $( "#account-details-block input" ).each(function() {
+            
+                // When any of them invalid
+                if( ! $('.register-form').validate().element($(this))){
+                    isAccountDetailsValid = false;
+                }
+            });
+            
+            // Only allow to go to the next screen if all inputs valid in first screen
+            if (isAccountDetailsValid){
+                $('#account-details-block').hide();
+                $('#personal-details-block').fadeIn();
+            }
+    })
+            
+    $('#register-back-btn').click(function(){
+        $('#personal-details-block').hide();
+        $('#account-details-block').fadeIn();
+    })
+});
+JS;
+$this->inlineScript()->captureEnd();
+?>

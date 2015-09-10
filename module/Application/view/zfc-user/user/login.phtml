@@ -1,0 +1,44 @@
+<?php
+$form = $this->loginForm;
+$form->prepare();
+$form->setAttribute('action', $this->url('zfcuser/login'));
+$form->setAttribute('method', 'post');
+$form->setAttribute('class', 'login-form');
+?>
+
+<?php echo $this->form()->openTag($form) ?>
+		<h3 class="form-title"><?= $this->translate('Sign In'); ?></h3>
+		<div class="alert alert-danger display-hide">
+			<button class="close" data-close="alert"></button>
+			<span>
+			Please enter your username and password.  </span>
+		</div>
+		<div class="form-group">
+			<!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
+			<label class="control-label visible-ie8 visible-ie9"><?php echo $this->formLabel($form->get('identity')) ?></label>
+			<?= $this->formInput($form->get('identity')->setAttributes(array('placeholder' => 'Username/Email', 'class' => 'form-control form-control-solid placeholder-no-fix'))) . $this->formElementErrors($form->get('identity')); ?>
+		</div>
+		<div class="form-group">
+			<label class="control-label visible-ie8 visible-ie9"><?php echo $this->formLabel($form->get('credential')) ?></label>
+			<?= $this->formInput($form->get('credential')->setAttributes(array('placeholder' => 'Password', 'class' => 'form-control form-control-solid placeholder-no-fix'))) . $this->formElementErrors($form->get('credential')); ?>
+		</div>
+		<div class="form-group">
+		<?php echo $this->formCheckbox($form->get('remember_me')) ?> Keep me logged in for 30 days
+		</div>
+		<div class="form-actions">
+			<button type="submit" class="btn btn-success uppercase">Login</button>
+			<a class="forget-password" href="<?php echo $this->url('zfcuser/forgotpassword') ?>"><?php echo $this->translate("Forgot password?"); ?></a>
+		</div>
+		<?php if ($this->redirect): ?>
+            <input type="hidden" name="redirect" value="<?php echo $this->escapeHtml($this->redirect) ?>" />
+        <?php endif ?>
+		
+		<?php if ($this->enableRegistration) : ?>
+		<div class="create-account">
+			<p>
+				<a href="<?php echo $this->url('zfcuser/register') . ($this->redirect ? '?redirect='.$this->escapeUrl($this->redirect) : '') ?>" id="register-btn" class="uppercase">Create an account</a>
+			</p>
+		</div>
+		<?php endif; ?>
+<?php echo $this->form()->closeTag() ?>
+

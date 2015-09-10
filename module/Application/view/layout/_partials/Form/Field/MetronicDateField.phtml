@@ -1,0 +1,19 @@
+<?php if ($this->source->has($this->name)): ?>
+    <?php $element = $this->source->get($this->name); ?>
+<div class="form-group">
+	<div class="row">
+		<label class="control-label col-md-3"><?= $this->formLabel($element) ?></label>
+		<div class="col-md-9">
+			<!-- 		<div class="input-group input-medium date date-picker" data-date-format="dd/mm/yyyy"> -->
+    			<?= $this->formdate($element)?>
+    <!-- 			<span class="input-group-btn"> -->
+			<!-- 				<button class="btn default" type="button"> -->
+			<!-- 					<i class="fa fa-calendar"></i> -->
+			<!-- 				</button> -->
+			<!-- 			</span> -->
+			<!-- 		</div> -->
+		</div>
+		<span class="help-block"><?= $this->formElementErrors($element); ?></span>
+	</div>
+</div>
+<?php endif; ?>

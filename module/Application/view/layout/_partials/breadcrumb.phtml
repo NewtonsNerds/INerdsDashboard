@@ -1,0 +1,42 @@
+<?php 
+if (((count($this->pages))-1) < 0 ){
+	$pageCount = ((count($this->pages)));
+}
+else{
+	$pageCount = ((count($this->pages))-1);
+	//echo $pageCount;
+}
+$pageLabel = '';
+//$pageLabel = '<h3 class="page-title">'. $this->pages[$pageCount]->getLabel() .'</h3>';
+$pageLabel .= '<div class="page-bar">';
+$homeIcon = '<i class="fa fa-home"></i>';
+$html = $pageLabel . '<ul class="page-breadcrumb">';
+
+for ($i = 0; $i < count($this->pages); $i++){
+    
+    $item = '<a href="' . $this->pages[$i]->getHref() . '">' . $this->pages[$i]->getLabel() . '</a>';
+    //$homeIcon = '<i class="fa fa-home"></i>';
+    $separator = '<i class="fa fa-angle-right"></i>';
+    
+    $html .= '<li>';
+	if( $i == 0 ){ 
+	    // home
+	    $html .= $homeIcon . $item;
+	    // the rest
+	    if (count($this->pages) > 1)
+	        $html .= $separator;
+	    
+	}else if ( $i ==  count($this->pages) - 1) { 
+	    // last
+	    $html .= $item;
+	}else{ 
+	    // the rest
+	    $html .= $item . $separator;
+	}
+	$html .= '</li>';
+}
+
+$html .= '</ul></div>';
+
+echo $html;
+?>

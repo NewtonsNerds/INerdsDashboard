@@ -1,0 +1,19 @@
+<?php if ($this->source->has($this->name)): ?>
+    <?php $element = $this->source->get($this->name); ?>
+    <?php if($this->hasLabel === false): ?>
+    <div class="form-group">
+    		<?= $this->formSelect($element) ?>
+    		<span class="help-block"><?= $this->formElementErrors($element); ?></span>
+    </div>
+    <?php else: ?>
+    <div class="form-group">
+    	<div class="row">
+    		<label class="col-md-3 control-label"><?= $this->formLabel($element) ?></label>
+    		<div class="col-md-9">
+    		<?= $this->formSelect($element)?>
+    		<span class="help-block"><?= $this->formElementErrors($element); ?></span>
+    		</div>
+    	</div>
+    </div>
+    <?php endif; ?>
+<?php endif; ?>

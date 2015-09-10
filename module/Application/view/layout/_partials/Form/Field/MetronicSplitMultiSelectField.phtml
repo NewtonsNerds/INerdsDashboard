@@ -1,0 +1,65 @@
+<?php 
+$selectableHeader = '';
+$selectionHeader = '';
+$selectableFooter = '';
+$selectionFooter = '';
+
+if(isset($this->options)){
+    if($this->options['description']){
+        $description = $this->options['description'];
+    }
+    
+    if(isset($this->options['leftHeader'])){
+        $selectableHeader = "<div class='split-multi-select-custom-header'>" . $this->options['leftHeader'] . "</div>";
+    }
+    
+    if(isset($this->options['leftFooter'])){
+        $selectableFooter = "<div class='split-multi-select-custom-footer'>" . $this->options['leftFooter'] . "</div>";
+    }
+    
+    if(isset($this->options['rightHeader'])){
+        $selectionHeader = "<div class='split-multi-select-custom-header'>" . $this->options['rightHeader'] . "</div>";
+    }
+    
+    if(isset($this->options['rightFooter'])){
+        $selectionFooter = "<div class='split-multi-select-custom-footer'>" . $this->options['rightFooter'] . "</div>";
+    }
+}
+?>
+
+<?php if ($this->source->has($this->name)): ?>
+    <?php $element = $this->source->get($this->name); ?>
+    <?php if($this->hasLabel === false): ?>
+    <div class="form-group">
+            <div class="well well-sm"><p><?= $description?></p></div>
+    		<?= $this->formSelect($element) ?>
+    		<span class="help-block"><?= $this->formElementErrors($element); ?></span>
+    </div>
+    <?php else: ?>
+    <div class="form-group">
+    	<div class="row">
+    		<label class="col-md-3 control-label"><?= $this->formLabel($element) ?></label>
+    		<div class="col-md-9">
+    		<div class="well well-sm"><p><?= $description?></p></div>
+    		<?= $this->formSelect($element)?>
+    		<span class="help-block"><?= $this->formElementErrors($element); ?></span>
+    		</div>
+    	</div>
+    </div>
+    <?php endif; ?>
+<?php endif; ?>
+
+<?php
+$this->inlineScript()->captureStart();
+echo <<<JS
+jQuery(document).ready(function() {
+        $('.multi-select').multiSelect({
+            selectableHeader: "$selectableHeader",
+            selectableFooter: "$selectableFooter",
+            selectionHeader: "$selectionHeader",
+            selectionFooter: "$selectionFooter",
+        });
+});
+JS;
+$this->inlineScript()->captureEnd();
+?>

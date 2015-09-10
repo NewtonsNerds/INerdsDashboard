@@ -1,0 +1,43 @@
+<?php
+/**
+ *  Use the following code in any view file to print an material design text field:
+					<?php 
+					echo $this->partial('md-textFiled', array(
+					        'name' => 'email',
+                            'value' => $user->getEmail(),
+                            'label' => 'Email',
+                            'helper' => 'You cannot change the email address once registered.',
+					        'readOnly' => true,
+					));
+					?>
+ */
+?>
+
+<?php
+if( isset( $this->name ) )
+    $name = $this->name;
+
+if( $this->readOnly === true )
+    $readOnly = 'readonly';
+
+if( $this->disabled === true )
+    $disabled = 'disabled';
+
+if( isset( $this->value ) ) {
+    $value = $this->value;
+    $edited = 'edited';
+}
+
+if( isset( $this->label ) )
+    $label = $this->label;
+
+if( isset( $this->helper ) )
+    $helper = $this->helper;
+?>
+
+<div class="form-group form-md-line-input form-md-floating-label">
+	<input type="text" name="<?= $name?>"
+		class="form-control <?= $edited ?>" <?= $readOnly?> <?= $disabled?>
+		value="<?= $value?>"> <label><?= $label ?></label><span
+		class="help-block"><?= $helper ?></span>
+</div>

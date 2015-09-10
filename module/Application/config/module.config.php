@@ -13,13 +13,23 @@ return array(
             'home' => array(
                 'type' => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(
-                    'route'    => '/',
+                    'route' => '/',
                     'defaults' => array(
                         'controller' => 'Application\Controller\Index',
-                        'action'     => 'index',
-                    ),
+                        'action' => 'index'
+                    )
                 ),
             ),
+            'dashboard' => array(
+                        'type' => 'Literal',
+                        'options' => array(
+                            'route' => '/dashboard',
+                            'defaults' => array(
+                                    'controller' => 'Application\Controller\Index',
+                                'action' => 'dashboard'
+                            )
+                        )
+                    ),
             // The following is a route to simplify getting started creating
             // new controllers and actions without needing to create a new
             // module. Simply drop new controllers in, and you can access them
@@ -57,6 +67,11 @@ return array(
             'Zend\Cache\Service\StorageCacheAbstractServiceFactory',
             'Zend\Log\LoggerAbstractServiceFactory',
         ),
+        'invokables' => [
+            'Gedmo\Blameable\BlameableListener' => 'INerdsBase\DoctrineExtension\Blameable\BlameableListener',
+            '\Gedmo\Uploadable\UploadableListener' => 'Gedmo\Uploadable\UploadableListener',
+            '\INerdsBase\Listener\EmailScheduleEventListener' => '\INerdsBase\Listener\EmailScheduleEventListener'
+        ],
         'factories' => array(
             'translator' => 'Zend\Mvc\Service\TranslatorServiceFactory',
         ),
@@ -87,6 +102,13 @@ return array(
             'application/index/index' => __DIR__ . '/../view/application/index/index.phtml',
             'error/404'               => __DIR__ . '/../view/error/404.phtml',
             'error/index'             => __DIR__ . '/../view/error/index.phtml',
+            'layout/css' => __DIR__ . '/../view/layout/blocks/css.phtml',
+            'layout/js' => __DIR__ . '/../view/layout/blocks/js.phtml',
+            'layout/partial/breadcrumb' => __DIR__ . '/../view/layout/_partials/breadcrumb.phtml',
+            'layout/partial/navigation' => __DIR__ . '/../view/layout/_partials/navigation.phtml',
+            'layout/partial/flash-messenger' => __DIR__ . '/../view/layout/_partials/alert.phtml',
+            'layout/login' => __DIR__ . '/../view/layout/login.phtml',
+            'zfc-user/user/login' => __DIR__ . '/../view/zfc-user/user/login.phtml'
         ),
         'template_path_stack' => array(
             __DIR__ . '/../view',
@@ -99,4 +121,69 @@ return array(
             ),
         ),
     ),
+    
+    //////////////////////////////////////////////////////////////////////////////////////////
+    'zfcuser' => [
+        // telling ZfcUserDoctrineORM to skip the entities it defines
+        'enable_default_entities' => false
+    ],
+    'bjyauthorize' => [
+        // Using the authentication identity provider, which basically
+        // reads the roles from the auth service's identity
+        'identity_provider' => 'BjyAuthorize\Provider\Identity\AuthenticationIdentityProvider',
+    
+        'role_providers' => [
+            // using an object repository (entity repository] to
+            // load all roles into our ACL
+            'BjyAuthorize\Provider\Role\ObjectRepositoryProvider' => [
+                'object_manager' => 'doctrine.entitymanager.orm_default',
+                'role_entity_class' => 'Application\Entity\Role'
+            ]
+        ]
+    ],
+    'doctrine' => [
+        'eventmanager' => [
+            'orm_default' => [
+                'subscribers' => [
+    
+                    // pick any listeners you need
+                    'Gedmo\Tree\TreeListener',
+                    'Gedmo\Timestampable\TimestampableListener',
+                    'Gedmo\Sluggable\SluggableListener',
+                    'Gedmo\Loggable\LoggableListener',
+                    'Gedmo\Sortable\SortableListener',
+                    'Gedmo\SoftDeleteable\SoftDeleteableListener',
+                    'Gedmo\Blameable\BlameableListener',
+                    'Gedmo\Uploadable\UploadableListener'
+                ]
+            ]
+        ],
+    
+        'driver' => [
+            'Application_driver' => [
+                'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
+                'cache' => 'array',
+                'paths' => [
+                    __DIR__ . '/../../Application/src/Application/Entity'
+                ]
+            ],
+            'orm_default' => [
+                'drivers' => [
+                    'Application\Entity' => 'Application_driver'
+                ]
+            ]
+        ],
+    
+        'configuration' => [
+            'orm_default' => [
+                'filters' => [
+                    'soft-deleteable' => 'Gedmo\SoftDeleteable\Filter\SoftDeleteableFilter'
+                ],
+                'datetime_functions' => [
+                    'date' => 'Luxifer\DQL\Datetime\Date',
+                    'datediff' => 'Luxifer\DQL\Datetime\DateDiff'
+                ]
+            ]
+        ]
+    ],
 );

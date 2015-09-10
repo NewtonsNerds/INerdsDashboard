@@ -39,8 +39,8 @@ return array(
         'ZF\\DevelopmentMode',
         'Phpro\\DoctrineHydrationModule',
         'ZF\\Apigility\\Doctrine\\Server',
-        'WebSockets',
         'Application',
+        'UserRest',
     ),
     'module_listener_options' => array(
         'module_paths' => array(

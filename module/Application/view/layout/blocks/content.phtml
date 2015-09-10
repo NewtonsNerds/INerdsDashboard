@@ -1,0 +1,25 @@
+<div class="page-content-wrapper">
+	<div class="page-content">
+    <!-- <h3 class="page-title"><?= $this->headTitle()->renderTitle() ?></h3> -->
+		<!-- BEGIN PAGE TITLE & BREADCRUMB-->
+		<?php
+// 	    if ($this->isAllowed('clientNavigation', 'view')) {
+// 	        echo $this->navigation()->breadcrumbs('client_navigation')->setMinDepth(0)->setPartial('layout/partial/breadcrumb');
+// 	    } else if ($this->isAllowed('operatorNavigation', 'view')) {
+//             echo $this->navigation()->breadcrumbs('operator_navigation')->setMinDepth(0)->setPartial('layout/partial/breadcrumb');
+//         } else if ($this->isAllowed('adminNavigation', 'view')) {
+//             echo $this->navigation()->breadcrumbs('admin_navigation')->setMinDepth(0)->setPartial('layout/partial/breadcrumb');
+//         }
+	    ?>
+        <!-- END PAGE TITLE & BREADCRUMB-->
+		        
+		<!-- BEGIN Flash Messenger -->
+    	<?= $this->render('layout/partial/flash-messenger')?>
+    	<!-- END Flash Messenger -->
+    	<div class="row">
+    		<div class="col-md-12">
+    		    <?php echo $this->content; ?>
+    		</div>
+        </div>
+	</div>
+</div>

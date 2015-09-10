@@ -1,0 +1,4 @@
+<?php if ($this->source->has($this->name)): ?>
+    <?php $element = $this->source->get($this->name); ?>
+    <?= $this->formHidden($element) . $this->formElementErrors($element);?>
+<?php endif; ?>
