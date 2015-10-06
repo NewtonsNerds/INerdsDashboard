@@ -1,15 +1,22 @@
 <?php if ($this->source->has($this->name)): ?>
     <?php $element = $this->source->get($this->name); ?>
+    <?php 
+    $options = $element->getOptions(); 
+    $description = '';
+    if( isset($options['description']) )
+        $description = $options['description']
+    ?>
+    <?php $helpBlock = '<span class="help-block">' . $description . $this->formElementErrors($element); '</span>;' ?>
     <?php if($this->hasLabel === false): ?>
         <?php if(isset($this->widthClass)): ?>
         <div class="<?= $this->widthClass ?>">
     		<?= $this->formInput($element)?>
-    		<span class="help-block"><?= $this->formElementErrors($element); ?></span>
+    		<?= $helpBlock ?>
     		</div>
         <?php else:?>
         <div class="form-group">
         		<?= $this->formInput($this->source) ?>
-        		<span class="help-block"><?= $this->formElementErrors($element); ?></span>
+        		<?= $helpBlock ?>
         </div>
         <?php endif;?>
     <?php else: ?>
@@ -17,13 +24,13 @@
         <?php if($this->isVertical): ?>
             <label><?= $this->formLabel($element) ?></label>
     		<?= $this->formInput($element)?>
-    		<span class="help-block"><?= $this->formElementErrors($element); ?></span>
+    		<?= $helpBlock ?>
         <?php else:?>
     	<div class="row">
     		<label class="col-md-3 control-label"><?= $this->formLabel($element) ?></label>
     		<div class="col-md-9">
     		<?= $this->formInput($element)?>
-    		<span class="help-block"><?= $this->formElementErrors($element); ?></span>
+    		<?= $helpBlock ?>
     		</div>
     	</div>
     	<?php endif;?>

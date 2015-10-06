@@ -9,6 +9,7 @@ use INerdsBase\Entity\Traits\IdTrait;
 use INerdsBase\Entity\Traits\SoftDeletableTrait;
 use INerdsBase\Entity\Traits\BlameableTrait;
 use INerdsBase\Entity\Traits\TimestampableTrait;
+use Doctrine\Common\Collections\Criteria;
 
 /**
  * User
@@ -144,6 +145,19 @@ class User implements UserInterface, ProviderInterface
      * )
      */
     private $roles;
+    
+    /**
+     * @ORM\ManyToMany(targetEntity="Application\Entity\Task", inversedBy="users")
+     * @ORM\JoinTable(name="user_task_linker")
+     **/
+    private $tasks;
+    
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\OneToMany(targetEntity="Application\Entity\Attendance", mappedBy="user", fetch="EXTRA_LAZY")
+     */
+    private $attendances;
 
     /**
      * Constructor
@@ -507,5 +521,109 @@ class User implements UserInterface, ProviderInterface
     public function getCompany()
     {
         return $this->company;
+    }
+
+    /**
+     * Add task
+     *
+     * @param \Application\Entity\Task $task
+     *
+     * @return User
+     */
+    public function addTask(\Application\Entity\Task $task)
+    {
+        $this->tasks[] = $task;
+
+        return $this;
+    }
+
+    /**
+     * Remove task
+     *
+     * @param \Application\Entity\Task $task
+     */
+    public function removeTask(\Application\Entity\Task $task)
+    {
+        $this->tasks->removeElement($task);
+    }
+
+    /**
+     * Get tasks
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getTasks()
+    {
+        return $this->tasks;
+    }
+
+    /**
+     * Add attendance
+     *
+     * @param \Application\Entity\Attendance $attendance
+     *
+     * @return User
+     */
+    public function addAttendance(\Application\Entity\Attendance $attendance)
+    {
+        $this->attendances[] = $attendance;
+
+        return $this;
+    }
+
+    /**
+     * Remove attendance
+     *
+     * @param \Application\Entity\Attendance $attendance
+     */
+    public function removeAttendance(\Application\Entity\Attendance $attendance)
+    {
+        $this->attendances->removeElement($attendance);
+    }
+
+    /**
+     * Get attendances
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getAttendances()
+    {
+        return $this->attendances;
+    }
+    
+    public function isPunchedInToday(){
+        $collection = $this->getAttendances();
+
+        $date = new \DateTime();
+        $today = $date->format('Y-m-d');
+        $date->add(new \DateInterval('P1D'));
+        $date = new \DateTime();
+        //print_r($date->format('Y-m-d'));
+        $tomorrow = $date->format('Y-m-d');
+        
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->gte("timeIn", $today))
+            ->where(Criteria::expr()->lte("timeIn", $tomorrow))
+            ->andWhere(Criteria::expr()->eq('id', $this->getId()))
+        ->setMaxResults(1);
+        
+        return count($collection->matching($criteria));
+    }
+    
+    public function isPunchedOutToday(){
+        $collection = $this->getAttendances();
+    
+        $date = new \DateTime();
+        $today = $date->format('Y-m-d');
+        $date->add(new \DateInterval('P1D'));
+       //$tomorrow = $date->format('Y-m-d');
+    
+        $criteria = Criteria::create()
+        ->where(Criteria::expr()->gte("timeOut", $today))
+        ->where(Criteria::expr()->lte("timeOut", $tomorrow))
+        ->andWhere(Criteria::expr()->eq('id', $this->getId()))
+        ->setMaxResults(1);
+    
+        return count($collection->matching($criteria));
     }
 }

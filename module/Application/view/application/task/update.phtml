@@ -1,0 +1,45 @@
+<?php
+$form = $this->form;
+$form->prepare();
+$form->setAttribute('action', $this->url('task/update', array(
+    'taskId' => $this->taskId
+)));
+$p = $form->get('task');
+?>
+
+<?php echo $this->form()->openTag($form)?>
+<div class="form">
+	<div class="form-body">
+	
+				<?php echo $this->partial('MetronicInputField', array('source' => $p, 'name' => 'title'))?>
+		<?php echo $this->partial('MetronicTextareaField', array('source' => $p, 'name' => 'details'))?>
+		<?php echo $this->partial('MetronicDatetimeField', array('source' => $p, 'name' => 'startOn'))?>
+		<?php echo $this->partial('MetronicHiddenField', array('source' => $form, 'name' => 'csrf'))?>
+        
+		<div class="form-actions">
+			<div class="row">
+				<div class="col-md-12">
+					       <?= $this->formButton($form->get( 'button-submit' )->setAttribute('class', 'btn blue'), 'Update' );?>
+					       <button type="button" class="btn btn-danger btn-delete" data-toggle="confirmation">Delete</button>
+							<a type="button" href="<?= $this->url('home') ?>"
+						class="btn default">Cancel</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<?php echo $this->form()->closeTag()?>
+<?php
+$deleteUrl = $this->url('task/delete', array('taskId' => $this->taskId));
+$this->inlineScript()->captureStart();
+echo <<<JS
+jQuery(document).ready(function() {
+
+    /* When delete button is clicked, after confirmation, the entity is removed. */
+    $('.btn-delete').on('confirmed.bs.confirmation', function () {
+        window.location.href = "$deleteUrl";
+     });
+});
+JS;
+$this->inlineScript()->captureEnd();
+?>

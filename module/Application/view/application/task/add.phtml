@@ -1,0 +1,31 @@
+<?php
+$projectId = $this->projectId;
+
+$form = $this->form;
+$form->prepare();
+$form->setAttribute('action', $this->url('project/task/add', array('projectId' => $projectId)));
+$p = $form->get('task');
+?>
+
+<?php echo $this->form()->openTag($form)?>
+<div class="form">
+	<div class="form-body">
+	
+		<?php echo $this->partial('MetronicInputField', array('source' => $p, 'name' => 'title'))?>
+		<?php echo $this->partial('MetronicTextareaField', array('source' => $p, 'name' => 'details'))?>
+		<?php echo $this->partial('MetronicDatetimeField', array('source' => $p, 'name' => 'startOn'))?>
+		<?php echo $this->partial('MetronicHiddenField', array('source' => $p, 'name' => 'project'))?>
+		<?php echo $this->partial('MetronicHiddenField', array('source' => $form, 'name' => 'csrf'))?>
+        
+		<div class="form-actions">
+			<div class="row">
+				<div class="col-md-12">
+					       <?= $this->formButton($form->get( 'button-submit' )->setAttribute('class', 'btn blue'), 'Save' );?>
+							<a type="button" href="<?= $this->url('home') ?>"
+						class="btn default">Cancel</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<?php echo $this->form()->closeTag()?>

@@ -20,6 +20,212 @@ return array(
                     )
                 ),
             ),
+            'project' => [
+                'type' => 'Literal',
+                'options' => [
+                    'route' => '/project',
+                    'defaults' => [
+                        'controller' => 'Application\Controller\Project',
+                        'action' => 'index'
+                    ]
+                ],
+                'may_terminate' => true,
+                'child_routes' => [
+                    'task' => [
+                        'type' => 'Segment',
+                        'options' => [
+                            'route' => '/[:projectId]/task',
+                            'defaults' => [
+                                'controller' => 'Application\Controller\Task',
+                                'action' => 'index'
+                            ]
+                        ],
+                        'may_terminate' => true,
+                        'child_routes' => [
+                            'add' => [
+                                'type' => 'Literal',
+                                'options' => [
+                                    'route' => '/add',
+                                    'defaults' => [
+                                        'action' => 'add'
+                                    ]
+                                ]
+                            ],
+                            'update' => [
+                                'type' => 'Segment',
+                                'options' => [
+                                    'route' => '/update/[:taskId]',
+                                    'constraints' => array(
+                                        'taskId' => '[0-9]+'
+                                    ),
+                                    'defaults' => [
+                                        'action' => 'update'
+                                    ]
+                                ]
+                            ],
+                            'delete' => [
+                                'type' => 'Segment',
+                                'options' => [
+                                    'route' => '/delete/[:taskId]',
+                                    'constraints' => array(
+                                        'taskId' => '[0-9]+'
+                                    ),
+                                    'defaults' => [
+                                        'action' => 'delete'
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ],
+                    'add' => [
+                        'type' => 'Literal',
+                        'options' => [
+                            'route' => '/add',
+                            'defaults' => [
+                                'action' => 'add'
+                            ]
+                        ]
+                    ],
+                    'update' => [
+                        'type' => 'Segment',
+                        'options' => [
+                            'route' => '/update/[:projectId]',
+                            'constraints' => array(
+                                'projectId' => '[0-9]+'
+                            ),
+                            'defaults' => [
+                                'action' => 'update'
+                            ]
+                        ]
+                    ],
+                    'delete' => [
+                        'type' => 'Segment',
+                        'options' => [
+                            'route' => '/delete/[:projectId]',
+                            'constraints' => array(
+                                'projectId' => '[0-9]+'
+                            ),
+                            'defaults' => [
+                                'action' => 'delete'
+                            ]
+                        ]
+                    ]
+                ]
+            ],
+            'task' => [
+                'type' => 'Literal',
+                'options' => [
+                    'route' => '/task',
+                    'defaults' => [
+                        'controller' => 'Application\Controller\task',
+                        'action' => 'index'
+                    ]
+                ],
+                'may_terminate' => true,
+                'child_routes' => [
+                    'update' => [
+                        'type' => 'Segment',
+                        'options' => [
+                            'route' => '/update/[:taskId]',
+                            'constraints' => array(
+                                'taskId' => '[0-9]+'
+                            ),
+                            'defaults' => [
+                                'action' => 'update'
+                            ]
+                        ]
+                    ],
+                    'delete' => [
+                        'type' => 'Segment',
+                        'options' => [
+                            'route' => '/delete/[:taskId]',
+                            'constraints' => array(
+                                'taskId' => '[0-9]+'
+                            ),
+                            'defaults' => [
+                                'action' => 'delete'
+                            ]
+                        ]
+                    ]
+                ]
+            ],
+            'attendance' => [
+                'type' => 'Literal',
+                'options' => [
+                    'route' => '/attendance',
+                    'defaults' => [
+                        'controller' => 'Application\Controller\Attendance',
+                        'action' => 'index'
+                    ]
+                ],
+                'may_terminate' => true,
+                'child_routes' => [
+                    'punchIn' => [
+                        'type' => 'Literal',
+                        'options' => [
+                            'route' => '/in',
+                            'defaults' => [
+                                'action' => 'punchIn'
+                            ]
+                        ]
+                    ],
+                    'punchOut' => [
+                        'type' => 'Literal',
+                        'options' => [
+                            'route' => '/out',
+                            'defaults' => [
+                                'action' => 'punchOut'
+                            ]
+                        ]
+                    ],
+                ]
+            ],
+            'tag' => [
+                'type' => 'Literal',
+                'options' => [
+                    'route' => '/tag',
+                    'defaults' => [
+                        'controller' => 'Application\Controller\Tag',
+                        'action' => 'index'
+                    ]
+                ],
+                'may_terminate' => true,
+                'child_routes' => [
+                    'add' => [
+                        'type' => 'Literal',
+                        'options' => [
+                            'route' => '/add',
+                            'defaults' => [
+                                'action' => 'add'
+                            ]
+                        ]
+                    ],
+                    'update' => [
+                        'type' => 'Segment',
+                        'options' => [
+                            'route' => '/update/[:tagId]',
+                            'constraints' => array(
+                                'tagId' => '[0-9]+'
+                            ),
+                            'defaults' => [
+                                'action' => 'update'
+                            ]
+                        ]
+                    ],
+                    'delete' => [
+                        'type' => 'Segment',
+                        'options' => [
+                            'route' => '/delete/[:tagId]',
+                            'constraints' => array(
+                                'tagId' => '[0-9]+'
+                            ),
+                            'defaults' => [
+                                'action' => 'delete'
+                            ]
+                        ]
+                    ]
+                ]
+            ],
             'dashboard' => array(
                         'type' => 'Literal',
                         'options' => array(
@@ -88,9 +294,23 @@ return array(
     ),
     'controllers' => array(
         'invokables' => array(
-            'Application\Controller\Index' => 'Application\Controller\IndexController'
+            'Application\Controller\Index' => 'Application\Controller\IndexController',
+            'Application\Controller\Project' => 'Application\Controller\ProjectController',
+            'Application\Controller\Task' => 'Application\Controller\TaskController',
+            'Application\Controller\Tag' => 'Application\Controller\TagController',
+            'Application\Controller\Attendance' => 'Application\Controller\AttendanceController',
         ),
     ),
+    
+    'module_layouts' => [
+        'ZfcUser' => [
+            'default' => 'layout/login'
+        ],
+        'GoalioForgotPassword' => [
+            'default' => 'layout/login'
+        ]
+    ],
+    
     'view_manager' => array(
         'display_not_found_reason' => true,
         'display_exceptions'       => true,
@@ -104,6 +324,17 @@ return array(
             'error/index'             => __DIR__ . '/../view/error/index.phtml',
             'layout/css' => __DIR__ . '/../view/layout/blocks/css.phtml',
             'layout/js' => __DIR__ . '/../view/layout/blocks/js.phtml',
+            'MetronicInputField' => __DIR__ . '/../view/layout/_partials/Form/Field/MetronicInputField.phtml',
+            'MetronicSelectField' => __DIR__ . '/../view/layout/_partials/Form/Field/MetronicSelectField.phtml',
+            'MetronicSplitMultiSelectField' => __DIR__ . '/../view/layout/_partials/Form/Field/MetronicSplitMultiSelectField.phtml',
+            'MetronicCheckboxField' => __DIR__ . '/../view/layout/_partials/Form/Field/MetronicCheckboxField.phtml',
+            'MetronicDateField' => __DIR__ . '/../view/layout/_partials/Form/Field/MetronicDateField.phtml',
+            'MetronicDatetimeField' => __DIR__ . '/../view/layout/_partials/Form/Field/MetronicDatetimeField.phtml',
+            'MetronicMDInputField' => __DIR__ . '/../view/layout/_partials/Form/Field/MetronicMDInputField.phtml',
+            'MetronicButtonField' => __DIR__ . '/../view/layout/_partials/Form/Field/MetronicButtonField.phtml',
+            'MetronicHiddenField' => __DIR__ . '/../view/layout/_partials/Form/Field/MetronicHiddenField.phtml',
+            'MetronicTextareaField' => __DIR__ . '/../view/layout/_partials/Form/Field/MetronicTextareaField.phtml',
+            'MetronicFileFieldWithPreview' => __DIR__ . '/../view/layout/_partials/Form/Field/MetronicFileFieldWithPreview.phtml',
             'layout/partial/breadcrumb' => __DIR__ . '/../view/layout/_partials/breadcrumb.phtml',
             'layout/partial/navigation' => __DIR__ . '/../view/layout/_partials/navigation.phtml',
             'layout/partial/flash-messenger' => __DIR__ . '/../view/layout/_partials/alert.phtml',
@@ -112,7 +343,11 @@ return array(
         ),
         'template_path_stack' => array(
             __DIR__ . '/../view',
+            'zfc-user' => __DIR__ . '/../view'
         ),
+        'strategies' => [
+            'ViewJsonStrategy'
+        ]
     ),
     // Placeholder for console routes
     'console' => array(
@@ -181,7 +416,8 @@ return array(
                 ],
                 'datetime_functions' => [
                     'date' => 'Luxifer\DQL\Datetime\Date',
-                    'datediff' => 'Luxifer\DQL\Datetime\DateDiff'
+                    'datediff' => 'Luxifer\DQL\Datetime\DateDiff',
+                    'dateformat' => 'Luxifer\DQL\Datetime\DateFormat'
                 ]
             ]
         ]

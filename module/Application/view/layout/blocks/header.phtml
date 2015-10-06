@@ -383,8 +383,13 @@
 						</a>
 						<ul class="dropdown-menu dropdown-menu-default">
 							<li>
-								<a href="extra_profile.html">
-								<i class="icon-user"></i> My Profile </a>
+							    <?php if(!$user->isPunchedInToday()): ?>
+								<a class="punch-in" href="<?= $this->url('attendance/punchIn')?>">
+								<?php endif; ?>
+								<?php if(!$user->isPunchedOutToday()): ?>
+								<a style="display: none; " class="punch-out" href="<?= $this->url('attendance/punchOut')?>">
+								<?php endif; ?>
+								<i class="icon-clock"></i> Punch In </a>
 							</li>
 							<li>
 								<a href="page_calendar.html">

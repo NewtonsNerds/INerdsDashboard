@@ -7,6 +7,11 @@
     </div>
     <?php else: ?>
     <div class="form-group">
+        <?php if($this->isVertical): ?>
+            <label><?= $this->formLabel($element) ?></label>
+    		<?= $this->formSelect($element)?>
+    		<span class="help-block"><?= $this->formElementErrors($element); ?></span>
+        <?php else:?>
     	<div class="row">
     		<label class="col-md-3 control-label"><?= $this->formLabel($element) ?></label>
     		<div class="col-md-9">
@@ -14,6 +19,7 @@
     		<span class="help-block"><?= $this->formElementErrors($element); ?></span>
     		</div>
     	</div>
+    	<?php endif;?>
     </div>
     <?php endif; ?>
 <?php endif; ?>

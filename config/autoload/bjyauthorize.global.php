@@ -6,7 +6,7 @@ return array(
         // set the 'guest' role as default (must be defined in a role provider)
         'default_role' => 'guest',
         // UnauthorizedStrategy or RedirectionStrategy
-        'unauthorized_strategy' => 'BjyAuthorize\View\UnauthorizedStrategy',
+        'unauthorized_strategy' => 'BjyAuthorize\View\RedirectionStrategy',
         // resource providers provide a list of resources that will be tracked
         // in the ACL. like roles, they can be hierarchical
         'resource_providers' => array(
@@ -42,25 +42,18 @@ return array(
          *
          * Consider enabling either the controller or the route guard depending on your needs.
          */
-//         'guards' => [
-//             'BjyAuthorize\Guard\Controller' => [
-//                 array('controller' => 'Application\Controller\Analysis', 'roles' => array('scholar', 'sonagrapher', 'admin')),
-//                 array('controller' => 'Application\Controller\DataPointAttribute', 'roles' => array('sonagrapher', 'admin')),
-//                 array('controller' => 'Application\Controller\DatasetCategory', 'roles' => array('sonagrapher', 'admin')),
-//                 array('controller' => 'Application\Controller\Doctor', 'roles' => array('receptionist', 'sonagrapher', 'admin')),
-//                 array('controller' => 'Application\Controller\Index', 'roles' => array('scholar', 'receptionist', 'sonagrapher', 'admin')),
-//                 array('controller' => 'Application\Controller\Patient', 'roles' => array('receptionist', 'sonagrapher', 'admin')),
-//                 array('controller' => 'Application\Controller\QuickContent', 'roles' => array('sonagrapher', 'admin')),
-//                 array('controller' => 'Application\Controller\Report', 'roles' => array('sonagrapher', 'admin')),
-//                 array('controller' => 'Application\Controller\ReportDoctor', 'roles' => array('sonagrapher', 'admin')),
-//                 array('controller' => 'Application\Controller\TestCategory', 'roles' => array('sonagrapher', 'admin')),
-//                 array('controller' => 'Application\Controller\Title', 'roles' => array('receptionist', 'sonagrapher', 'admin')),
+        'guards' => [
+            'BjyAuthorize\Guard\Controller' => [
+                array('controller' => 'Application\Controller\Index', 'roles' => array('developer', 'technician')),
+                array('controller' => 'Application\Controller\Task', 'roles' => array('developer', 'technician')),
+                array('controller' => 'Application\Controller\Project', 'roles' => array('developer', 'technician')),
+                array('controller' => 'Application\Controller\Tag', 'roles' => array('developer', 'technician')),
                 
-//                 array('controller' => 'goalioforgotpassword_forgot', 'roles' => array()),
-//                 array('controller' => 'zfcuser', 'roles' => array()),
-//                 array('controller' => 'HumusPHPUnitController', 'roles' => array()),
-//             ],
-//         ],
+                array('controller' => 'goalioforgotpassword_forgot', 'roles' => array()),
+                array('controller' => 'zfcuser', 'roles' => array()),
+                array('controller' => 'HumusPHPUnitController', 'roles' => array()),
+            ],
+        ],
 
             /* If this guard is specified here (i.e. it is enabled), it will block
              * access to all routes unless they are specified here.

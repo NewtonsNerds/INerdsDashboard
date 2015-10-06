@@ -19,6 +19,24 @@ class Module
         $eventManager        = $e->getApplication()->getEventManager();
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener->attach($eventManager);
+        
+        // Hook into zfcuser registration to add extra fields and field validations
+        $eventManager->attach(new \Application\Listener\AddRegisterInputListener());
+        $this->_addRegistrationFields($e);
+    }
+    
+    private function _addRegistrationFields(MvcEvent $e){
+        $zfcServiceEvents = $e->getApplication()->getServiceManager()->get('zfcuser_user_service')->getEventManager();
+    
+        // Store the field
+        $zfcServiceEvents->attach('register', function($e) {
+            $form = $e->getParam('form');
+            $user = $e->getParam('user');
+    
+            /* @var $user \FooUser\Entity\User */
+            $displayName = $form->get('firstName')->getValue() . ' ' . $form->get('lastName')->getValue();
+            $user->setDisplayName($displayName);
+        });
     }
 
     public function getConfig()

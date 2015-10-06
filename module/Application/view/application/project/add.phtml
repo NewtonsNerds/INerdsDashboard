@@ -1,0 +1,26 @@
+<?php
+$form = $this->form;
+$form->prepare();
+$form->setAttribute('action', $this->url('project/add'));
+$p = $form->get('project');
+?>
+
+<?php echo $this->form()->openTag($form)?>
+<div class="form">
+	<div class="form-body">
+	
+		<?php echo $this->partial('MetronicInputField', array('source' => $p, 'name' => 'name'))?>
+		<?php echo $this->partial('MetronicHiddenField', array('source' => $form, 'name' => 'csrf'))?>
+        
+		<div class="form-actions">
+			<div class="row">
+				<div class="col-md-12">
+					       <?= $this->formButton($form->get( 'button-submit' )->setAttribute('class', 'btn blue'), 'Save' );?>
+							<a type="button" href="<?= $this->url('home') ?>"
+						class="btn default">Cancel</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<?php echo $this->form()->closeTag()?>
