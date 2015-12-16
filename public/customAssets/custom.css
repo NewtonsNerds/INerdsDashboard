@@ -2,3 +2,7 @@
 .login .content .register-form{
 	display:block;
 }
+
+.page-header.navbar .page-logo .logo-default {
+    margin: 20px 10px 0;
+}
