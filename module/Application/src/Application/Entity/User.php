@@ -158,6 +158,18 @@ class User implements UserInterface, ProviderInterface
      * @ORM\OneToMany(targetEntity="Application\Entity\Attendance", mappedBy="user", fetch="EXTRA_LAZY")
      */
     private $attendances;
+    
+    /**
+     * @ORM\OneToOne(targetEntity="Application\Entity\Calendar", mappedBy="user")
+     */
+    private $calendar;
+    
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\OneToMany(targetEntity="Application\Entity\CalendarWorkItem", mappedBy="user", fetch="EXTRA_LAZY")
+     */
+    private $workItems;
 
     /**
      * Constructor
@@ -165,6 +177,9 @@ class User implements UserInterface, ProviderInterface
     public function __construct()
     {
         $this->roles = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->tasks = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->attendances = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->workItems = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -592,38 +607,95 @@ class User implements UserInterface, ProviderInterface
     }
     
     public function isPunchedInToday(){
-        $collection = $this->getAttendances();
+//         $collection = $this->getAttendances();
 
-        $date = new \DateTime();
-        $today = $date->format('Y-m-d');
-        $date->add(new \DateInterval('P1D'));
-        $date = new \DateTime();
-        //print_r($date->format('Y-m-d'));
-        $tomorrow = $date->format('Y-m-d');
+//         $date = new \DateTime();
+//         $today = $date->format('Y-m-d');
+//         $date->add(new \DateInterval('P1D'));
+//         $date = new \DateTime();
+//         $tomorrow = $date->format('Y-m-d');
         
-        $criteria = Criteria::create()
-            ->where(Criteria::expr()->gte("timeIn", $today))
-            ->where(Criteria::expr()->lte("timeIn", $tomorrow))
-            ->andWhere(Criteria::expr()->eq('id', $this->getId()))
-        ->setMaxResults(1);
+//         $criteria = Criteria::create()
+//             ->where(Criteria::expr()->gte("timeIn", $today))
+//             ->where(Criteria::expr()->lte("timeIn", $tomorrow))
+//             ->andWhere(Criteria::expr()->eq('id', $this->getId()))
+//         ->setMaxResults(1);
         
-        return count($collection->matching($criteria));
+//         return count($collection->matching($criteria));
     }
     
     public function isPunchedOutToday(){
-        $collection = $this->getAttendances();
+//         $collection = $this->getAttendances();
     
-        $date = new \DateTime();
-        $today = $date->format('Y-m-d');
-        $date->add(new \DateInterval('P1D'));
-       //$tomorrow = $date->format('Y-m-d');
+//         $date = new \DateTime();
+//         $today = $date->format('Y-m-d');
+//         $date->add(new \DateInterval('P1D'));
+//        $tomorrow = $date->format('Y-m-d');
     
-        $criteria = Criteria::create()
-        ->where(Criteria::expr()->gte("timeOut", $today))
-        ->where(Criteria::expr()->lte("timeOut", $tomorrow))
-        ->andWhere(Criteria::expr()->eq('id', $this->getId()))
-        ->setMaxResults(1);
+//         $criteria = Criteria::create()
+//         ->where(Criteria::expr()->gte("timeOut", $today))
+//         ->where(Criteria::expr()->lte("timeOut", $tomorrow))
+//         ->andWhere(Criteria::expr()->eq('id', $this->getId()))
+//         ->setMaxResults(1);
     
-        return count($collection->matching($criteria));
+//         return count($collection->matching($criteria));
+    }
+
+    /**
+     * Set calendar
+     *
+     * @param \Application\Entity\Calendar $calendar
+     *
+     * @return User
+     */
+    public function setCalendar(\Application\Entity\Calendar $calendar = null)
+    {
+        $this->calendar = $calendar;
+
+        return $this;
+    }
+
+    /**
+     * Get calendar
+     *
+     * @return \Application\Entity\Calendar
+     */
+    public function getCalendar()
+    {
+        return $this->calendar;
+    }
+
+    /**
+     * Add workItem
+     *
+     * @param \Application\Entity\CalendarWorkItem $workItem
+     *
+     * @return User
+     */
+    public function addWorkItem(\Application\Entity\CalendarWorkItem $workItem)
+    {
+        $this->workItems[] = $workItem;
+
+        return $this;
+    }
+
+    /**
+     * Remove workItem
+     *
+     * @param \Application\Entity\CalendarWorkItem $workItem
+     */
+    public function removeWorkItem(\Application\Entity\CalendarWorkItem $workItem)
+    {
+        $this->workItems->removeElement($workItem);
+    }
+
+    /**
+     * Get workItems
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getWorkItems()
+    {
+        return $this->workItems;
     }
 }

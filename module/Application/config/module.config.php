@@ -117,7 +117,7 @@ return array(
                 'options' => [
                     'route' => '/task',
                     'defaults' => [
-                        'controller' => 'Application\Controller\task',
+                        'controller' => 'Application\Controller\Task',
                         'action' => 'index'
                     ]
                 ],
@@ -147,6 +147,83 @@ return array(
                             ]
                         ]
                     ]
+                ]
+            ],
+            'calendar' => [
+                'type' => 'Literal',
+                'options' => [
+                    'route' => '/calendar',
+                    'defaults' => [
+                        'controller' => 'Application\Controller\Calendar',
+                        'action' => 'index'
+                    ]
+                ],
+                'may_terminate' => true,
+                'child_routes' => [
+                    'switchUserCalendar' => [
+                        'type' => 'Segment',
+                        'options' => [
+                            'route' => '/switch/[:userId]',
+                            'constraints' => array(
+                                'userId' => '[0-9]+'
+                            ),
+                            'defaults' => [
+                                'action' => 'switchUserCalendar'
+                            ]
+                        ]
+                    ],
+                ]
+            ],
+            'calendarWorkItem' => [
+                'type' => 'Literal',
+                'options' => [
+                    'route' => '/calendar-work-item',
+                    'defaults' => [
+                        'controller' => 'Application\Controller\CalendarWorkItem',
+                        'action' => 'index'
+                    ]
+                ],
+                'may_terminate' => true,
+                'child_routes' => [
+                    'get' => [
+                        'type' => 'Segment',
+                        'options' => [
+                            'route' => '/get[/:calendarWorkItemId]',
+                            'constraints' => array(
+                                'calendarWorkItemId' => '[0-9]+'
+                            ),
+                            'defaults' => [
+                                'action' => 'get'
+                            ]
+                        ]
+                    ],
+                    'add' => [
+                        'type' => 'Literal',
+                        'options' => [
+                            'route' => '/add',
+                            'defaults' => [
+                                'action' => 'add'
+                            ]
+                        ]
+                    ],
+                    'update' => [
+                        'type' => 'Literal',
+                        'options' => [
+                            'route' => '/update',
+                            'defaults' => [
+                                'action' => 'update'
+                            ]
+                        ]
+                    ],
+                    'delete' => [
+                        'type' => 'Literal',
+                        'options' => [
+                            'route' => '/delete',
+                            'defaults' => [
+                                'action' => 'delete'
+                            ]
+                        ]
+                    ],
                 ]
             ],
             'attendance' => [
@@ -216,6 +293,52 @@ return array(
                         'type' => 'Segment',
                         'options' => [
                             'route' => '/delete/[:tagId]',
+                            'constraints' => array(
+                                'tagId' => '[0-9]+'
+                            ),
+                            'defaults' => [
+                                'action' => 'delete'
+                            ]
+                        ]
+                    ]
+                ]
+            ],
+            'calendar-work-item' => [
+                'type' => 'Literal',
+                'options' => [
+                    'route' => '/calendar-work-item',
+                    'defaults' => [
+                        'controller' => 'Application\Controller\CalendarWorkItem',
+                        'action' => 'index'
+                    ]
+                ],
+                'may_terminate' => true,
+                'child_routes' => [
+                    'add' => [
+                        'type' => 'Literal',
+                        'options' => [
+                            'route' => '/add',
+                            'defaults' => [
+                                'action' => 'add'
+                            ]
+                        ]
+                    ],
+                    'update' => [
+                        'type' => 'Segment',
+                        'options' => [
+                            'route' => '/update/[:calendarWorkItemId]',
+                            'constraints' => array(
+                                'tagId' => '[0-9]+'
+                            ),
+                            'defaults' => [
+                                'action' => 'update'
+                            ]
+                        ]
+                    ],
+                    'delete' => [
+                        'type' => 'Segment',
+                        'options' => [
+                            'route' => '/delete/[:calendarWorkItemId]',
                             'constraints' => array(
                                 'tagId' => '[0-9]+'
                             ),
@@ -299,6 +422,8 @@ return array(
             'Application\Controller\Task' => 'Application\Controller\TaskController',
             'Application\Controller\Tag' => 'Application\Controller\TagController',
             'Application\Controller\Attendance' => 'Application\Controller\AttendanceController',
+            'Application\Controller\Calendar' => 'Application\Controller\CalendarController',
+            'Application\Controller\CalendarWorkItem' => 'Application\Controller\CalendarWorkItemController',
         ),
     ),
     

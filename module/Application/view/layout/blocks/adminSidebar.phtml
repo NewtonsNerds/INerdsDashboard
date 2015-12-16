@@ -3,7 +3,7 @@
 <div class="page-sidebar-wrapper">
 	<!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
 	<!-- DOC: Change data-auto-speed="200" to adjust the sub menu slide up/down speed -->
-	<div class="page-sidebar md-shadow-z-2-i  navbar-collapse collapse">
+	<div class="page-sidebar navbar-collapse collapse">
 
 		<!-- BEGIN SIDEBAR MENU -->
 		<!-- DOC: Apply "page-sidebar-menu-light" class right after "page-sidebar-menu" to enable light sidebar menu style(without borders) -->
@@ -14,25 +14,28 @@
 		<!-- DOC: Set data-auto-speed="200" to adjust the sub menu slide up/down speed -->
 		<ul class="page-sidebar-menu " data-keep-expanded="false"
 			data-auto-scroll="true" data-slide-speed="200">
-			<li class="start "><a href="/"> <i class="icon-home"></i> <span
+			<li class="nav-item start "><a class="nav-link" href="/"> <i class="icon-home"></i> <span
 					class="title">Dashboard</span>
 			</a></li>
-			<li class="active"><a href="javascript:;"> <i class="icon-rocket"></i>
+			<li class="heading">
+                <h3 class="uppercase">Tools</h3>
+            </li>
+			<li class="nav-item"><a class="nav-link" href="javascript:;"> <i class="icon-rocket"></i>
 					<span class="title">Project</span> <span class="arrow"></span>
 			</a>
 				<ul class="sub-menu" style="display: none;">
-					<li><a href="<?= $this->url('project') ?>"> All Projects </a></li>
-					<li><a href="<?= $this->url('project/add') ?>"> <span
+					<li class="nav-item  "><a class="nav-link" href="<?= $this->url('project') ?>"> All Projects </a></li>
+					<li class="nav-item  "><a class="nav-link" href="<?= $this->url('project/add') ?>"> <span
 							class="badge badge-warning">new</span>New Project
 					</a></li>
 				</ul></li>
 
-			<li class="last"><a href="javascript:;"> <i class="icon-tag"></i> <span
+			<li class="nav-item"><a class="nav-link" href="javascript:;"> <i class="icon-tag"></i> <span
 					class="title">Tag</span> <span class="arrow"></span>
 			</a>
 				<ul class="sub-menu" style="display: none;">
-					<li><a href="<?= $this->url('tag') ?>"> All Tags </a></li>
-					<li><a href="<?= $this->url('tag/add') ?>"> New Tag </a></li>
+					<li class="nav-item  "><a class="nav-link" href="<?= $this->url('tag') ?>"> All Tags </a></li>
+					<li class="nav-item  "><a class="nav-link" href="<?= $this->url('tag/add') ?>"> New Tag </a></li>
 				</ul></li>
 		</ul>
 		<!-- END SIDEBAR MENU -->

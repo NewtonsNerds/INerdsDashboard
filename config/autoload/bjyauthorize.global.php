@@ -48,6 +48,8 @@ return array(
                 array('controller' => 'Application\Controller\Task', 'roles' => array('developer', 'technician')),
                 array('controller' => 'Application\Controller\Project', 'roles' => array('developer', 'technician')),
                 array('controller' => 'Application\Controller\Tag', 'roles' => array('developer', 'technician')),
+                array('controller' => 'Application\Controller\Calendar', 'roles' => array('developer', 'technician')),
+                array('controller' => 'Application\Controller\CalendarWorkItem', 'roles' => array('developer', 'technician')),
                 
                 array('controller' => 'goalioforgotpassword_forgot', 'roles' => array()),
                 array('controller' => 'zfcuser', 'roles' => array()),
